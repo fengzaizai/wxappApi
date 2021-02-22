@@ -5,9 +5,10 @@ const sql = require('./sql')
 
 module.exports.findOne = function (query) {
   return new Promise(function (resolve, reject) {
-    sql.User.findOne({
+    sql.Admin.findOne({
       ...query
     }, function (err, ret) {
+      // console.log(ret)
       resolve(ret)
     })
   })
@@ -15,7 +16,7 @@ module.exports.findOne = function (query) {
 
 module.exports.findOneAndUpdate = function (query, updata) {
   return new Promise(function (resolve, reject) {
-    sql.User.findOneAndUpdate({
+    sql.Admin.findOneAndUpdate({
       ...query
     }, {
       ...updata
@@ -28,32 +29,24 @@ module.exports.findOneAndUpdate = function (query, updata) {
 
 module.exports.findOneAndAdd = function (query) {
   return new Promise(function (resolve, reject) {
-    sql.User.findOne({
-      userId: query.userId
+    sql.Admin.findOne({
+      userid: query.userid
     }, function (err, ret) {
       // console.log(ret)
       if (!ret) {
-        sql.User.findOne({
-          userName: query.userName
-        }, function (err_2, ret_2) {
-          if (!ret_2) {
-            const user = new sql.User({
-              ...query
-            })
-            user.save(function (err, ret2) {
-              if (err) {
-                console.log(err)
-              } else {
-                // console.log('保存成功')
-                resolve(ret2)
-              }
-            })
-          }else{
-            reject('用户名已存在')
+        const user = new sql.Admin({
+          ...query
+        })
+        user.save(function (err, ret2) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('保存成功')
+            resolve(ret2)
           }
         })
       } else {
-        reject('账号已存在')
+        reject(1)
       }
 
     })
@@ -63,7 +56,7 @@ module.exports.findOneAndAdd = function (query) {
 
 module.exports.findOneAndRemove = function (query) {
   return new Promise(function (resolve, reject) {
-    sql.User.findOneAndRemove({
+    sql.Admin.findOneAndRemove({
       ...query
     }, function (err, ret) {
       // console.log(ret)
@@ -74,7 +67,7 @@ module.exports.findOneAndRemove = function (query) {
 
 module.exports.find = function () {
   return new Promise((resolve, reject) => {
-    sql.User.find(function (err, ret) {
+    sql.Admin.find(function (err, ret) {
       ret.forEach(v => {
         //处理密码与openid
         v.password = ''

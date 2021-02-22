@@ -12,36 +12,18 @@ var Schema = mongoose.Schema
 
 //构建用户信息结构
 var userSchema = new Schema({
-  nickName: {
-    type: String,
-    default: true
-  },
-  gender: {
+  userId: {
     type: String,
   },
-  language: {
+  userName: {
     type: String,
   },
-  city: {
-    type: String,
-  },
-  province: {
-    type: String,
-  },
-  country: {
-    type: String,
-  },
-  avatarUrl: {
-    type: String,
-  },
-  phone: {
+  password: {
     type: String,
   },
   openid: {
     type: String,
-    default: true
-  },
-  
+  }
 })
 
 var articleSchema = new Schema({
@@ -73,37 +55,50 @@ var articleSchema = new Schema({
     type: String,
   },
   images: {
-    type: String,
+    type: Array,
   },
   date: {
     type: String,
   },
-  comments:{
-    type:Array,
+  comments: {
+    type: Array,
   },
   isfind: {
     type: Boolean,
   },
+  releaseStatus: {
+    type: String
+  },
+})
+
+var adminSchema = new Schema({
+  username: {
+    type: String,
+  },
+  password: {
+    type: String,
+  },
+  name: {
+    type: String
+  },
+  phone: {
+    type: String
+  },
+  email: {
+    type: String
+  },
+  identity: {
+    type: String
+  },
+  state: {
+    type: Boolean
+  }
 })
 
 var User = mongoose.model('User', userSchema)
 var Article = mongoose.model('Article', articleSchema)
+var Admin = mongoose.model('Admin', adminSchema)
 
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.Article = mongoose.model('Article', articleSchema)
-// const user = new User({
-//   userName:'冯菌',
-//   userid: '9999',
-//   password: '123456',
-//   userPhone:15566262239,
-//   userRights:'kezhang'
-// })
-
-// user.save(function (err, ret) {
-//   if (err) {
-//     console.log(err)
-//   } else {
-//     console.log('保存成功')
-//     console.log(ret)
-//   }
-// })
+module.exports.Admin = mongoose.model('Admin', adminSchema)
